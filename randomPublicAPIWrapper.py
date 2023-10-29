@@ -2,6 +2,9 @@ import endpointWrappingClasses as bases
 import json
 import requests
 
+"""
+Class wrapping a public API returning a random other public API.
+"""
 class randomPublicAPIWrapper(bases.dataEndpointWrapper):
     def __init__(self, url):
         self.url = url
@@ -9,6 +12,11 @@ class randomPublicAPIWrapper(bases.dataEndpointWrapper):
         self.body = None
         self.parameters = None
 
+    """
+    Constructor based on appropriately structured JSON config.
+    
+    :param configFile: Path to the config file.
+    """
     @classmethod
     def makeFromConfig(cls, configFile):
         config = None
@@ -22,6 +30,9 @@ class randomPublicAPIWrapper(bases.dataEndpointWrapper):
         else:
             return cls(config["baseURL"])
 
+    """
+    DTO class for the object returned by the API.
+    """
     class publicAPIDTO:
         def __init__(self, api, description, auth, https, cors, link, category):
             self.api = api
@@ -32,10 +43,16 @@ class randomPublicAPIWrapper(bases.dataEndpointWrapper):
             self.link = link
             self.category = category
 
+        """
+        Constructor based on the dictionary returned when parsing the response content JSON.
+        """
         @classmethod
         def makeFromDict(cls, apiDICT):
             return cls(apiDICT["API"], apiDICT["Description"], apiDICT["Auth"], apiDICT["HTTPS"], apiDICT["Cors"], apiDICT["Link"], apiDICT["Category"])
 
+    """
+    Get data from the API.
+    """
     def getData(self):
         resp = self.performWebRequest(self.url, "GET", None, None)
 

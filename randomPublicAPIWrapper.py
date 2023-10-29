@@ -54,13 +54,16 @@ class randomPublicAPIWrapper(bases.dataEndpointWrapper):
     Get data from the API.
     """
     def getData(self):
-        resp = self.performWebRequest(self.url, "GET", None, None)
+        try:
+            resp = self.performWebRequest(self.url, "GET", None, None)
 
-        if resp.status_code == requests.codes.ok:
-            respData = json.loads(resp.text)
+            if resp.status_code == requests.codes.ok:
+                respData = json.loads(resp.text)
 
-            retAPI = self.publicAPIDTO.makeFromDict(respData["entries"][0])
+                retAPI = self.publicAPIDTO.makeFromDict(respData["entries"][0])
 
-            return bases.dataEndpointResponse.makeFromData(retAPI)
-        else:
-            return bases.endpointResponse.makeFailed("Error fetching data! Status code {0}.".format(resp.status_code))
+                return bases.dataEndpointResponse.makeFromData(retAPI)
+            else:
+                return bases.dataEndpointResponse.makeFailed("Error fetching data! Status code {0}.".format(resp.status_code))
+        except ValueError as e:
+            return bases.dataEndpointResponse.makeFailed(e)

@@ -27,23 +27,27 @@ class dataEndpointWrapper:
     :raises Error: Request errors.
     """
     def performWebRequest(self, url, method, body, parameters):
-        if method == "GET":
-            return requests.get(url)
-        elif method == "POST":
-            # return requests.post(url, body=body, data=body)
-            pass
-        elif method == "PUT":
-            # requests.put(url)
-            pass
-        elif method == "DELETE":
-            # return requests.delete(url)
-            pass
-        elif method == "HEAD":
-            # return requests.head(url)
-            pass
-        elif method == "OPTIONS":
-            # return requests.options('https://httpbin.org/get')
-            pass
+        try:
+            if method == "GET":
+                return requests.get(url)
+            elif method == "POST":
+                # return requests.post(url, body=body, data=body)
+                pass
+            elif method == "PUT":
+                # requests.put(url)
+                pass
+            elif method == "DELETE":
+                # return requests.delete(url)
+                pass
+            elif method == "HEAD":
+                # return requests.head(url)
+                pass
+            elif method == "OPTIONS":
+                # return requests.options('https://httpbin.org/get')
+                pass
+        except requests.ConnectionError as e:
+            raise ValueError(e)
+        # TODO: Add more error handling
 
 """
 Object wrapping the response from a public API. To be returned in the getData function.

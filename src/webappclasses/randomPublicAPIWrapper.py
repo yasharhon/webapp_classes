@@ -1,4 +1,4 @@
-import endpointWrappingClasses as bases
+import webappclasses.endpointWrappingClasses as bases
 import json
 import requests
 
